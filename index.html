@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reorganizador de presupuestos</title>
+  <meta name="description" content="Reorganiza un presupuesto detallado de Unidad estructural › Capítulo › Actividad a Capítulo › Unidad estructural › Actividad, en el navegador.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' fill='none' stroke='%231E2A33' stroke-width='3'/%3E%3Crect x='9' y='9' width='14' height='14' fill='%23F2B705'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Reorganizador de presupuestos</h1>
+      <p class="lede">Toma la hoja del presupuesto detallado, armada por unidad estructural, y la entrega ordenada por capítulo, sin perder un peso.</p>
+
+      <figure class="onion" aria-label="Antes: unidad estructural contiene capítulos que contienen actividades. Después: capítulo contiene unidades estructurales que contienen actividades.">
+        <div class="layer l1 swap"><span>Unidad estructural</span>
+          <div class="layer l2 swap"><span>Capítulo</span>
+            <div class="layer l3"><span>Actividad</span></div>
+          </div>
+        </div>
+        <svg class="turn" viewBox="0 0 80 40" aria-hidden="true"><path d="M4 20 H68 M56 8 L70 20 L56 32" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+        <div class="layer l1 swap"><span>Capítulo</span>
+          <div class="layer l2 swap"><span>Unidad estructural</span>
+            <div class="layer l3"><span>Actividad</span></div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="drop" class="drop" tabindex="0" role="button" aria-describedby="drop-help">
+      <input id="file" type="file" accept=".xlsx,.xlsm" hidden>
+      <p class="drop-main">Arrastra aquí el presupuesto en Excel o <u>elige el archivo</u></p>
+      <p id="drop-help" class="drop-help">.xlsx o .xlsm. Se procesa en este navegador: el archivo no se sube a ningún servidor.</p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <div id="work" hidden>
+      <section class="block">
+        <h2>Hoja y columnas</h2>
+        <div class="grid-2">
+          <label class="field">Hoja del presupuesto detallado
+            <select id="sheet"></select>
+            <small id="sheet-note"></small>
+          </label>
+          <label class="field">Fila de encabezado
+            <input id="hdr" type="number" min="1" step="1">
+            <small>La fila donde están DESCRIPCIÓN, UND, CANT…</small>
+          </label>
+        </div>
+        <div id="roles" class="roles"></div>
+        <details class="extras">
+          <summary>Columnas adicionales <span id="extras-count"></span></summary>
+          <p class="hint">Otros escenarios o fases (por ejemplo, otro VR. TOTAL). Las marcadas con “sumar” también se totalizan por unidad estructural y capítulo, y se verifican contra el original.</p>
+          <div id="extras"></div>
+        </details>
+      </section>
+
+      <section class="block">
+        <h2>Resultado</h2>
+        <div id="titleblock" class="titleblock"></div>
+        <div id="alerts"></div>
+        <div id="tree" class="tree"></div>
+      </section>
+
+      <section class="block">
+        <h2>Descargar</h2>
+        <fieldset class="modes">
+          <legend class="sr">Tipo de salida</legend>
+          <label class="mode">
+            <input type="radio" name="mode" value="new" checked>
+            <span class="mode-name">Libro nuevo</span>
+            <span class="mode-desc">Solo las tres hojas reorganizadas. Liviano para enviar. Las actividades quedan como valores y los subtotales como fórmulas.</span>
+          </label>
+          <label class="mode">
+            <input type="radio" name="mode" value="inject">
+            <span class="mode-name">Mismo libro, hojas nuevas vinculadas</span>
+            <span class="mode-desc">Tu archivo completo con tres hojas al final. Cada actividad apunta a su celda original, así que si cambias el presupuesto, la reorganización se actualiza.</span>
+          </label>
+        </fieldset>
+        <button id="go" class="go" type="button">Descargar Excel reorganizado</button>
+        <p id="go-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Salida: hoja <b>PPTO x CAPITULO</b> (capítulo › unidad estructural › actividad, con agrupación por niveles), <b>VERIFICACION</b> (cierre contra el original por total, unidad estructural y capítulo) y <b>MATRIZ CAP x UE</b>.</p>
+  </footer>
+
+  <script src="lib/jszip.min.js"></script>
+  <script src="lib/exceljs.min.js"></script>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

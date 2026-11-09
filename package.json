@@ -1,0 +1,21 @@
+{
+  "name": "reorganizador-presupuestos",
+  "version": "1.0.0",
+  "description": "Reorganiza presupuestos de obra: UE > Capitulo > Actividad a Capitulo > UE > Actividad",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/run.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "jszip": "^3.10.1"
+  },
+  "type": "module"
+}

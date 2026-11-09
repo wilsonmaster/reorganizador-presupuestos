@@ -1,0 +1,6 @@
+node_modules/
+test/out/
+*.xlsx
+*.xlsm
+*.xls
+.DS_Store
